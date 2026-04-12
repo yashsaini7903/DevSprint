@@ -2,15 +2,15 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const http = require("http");
-const path = require("path");   
+const path = require("path");
 dotenv.config({ path: path.join(__dirname, ".env") });
 require("./config/db");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const {Server, Socket} = require("socket.io");
+const { Server, Socket } = require("socket.io");
 const handleConnection = require("./controllers/SocketControllers");
 
-const userRoutes = require("./routes/userRoute");   
+const userRoutes = require("./routes/userRoute");
 const postRoutes = require("./routes/postRoute");
 const liveRoutes = require("./routes/liveRoutes")
 
@@ -24,14 +24,14 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
 
-app.use('/api/user',userRoutes);
-app.use('/api/post',postRoutes);
-app.use('/api/live',liveRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/live', liveRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });

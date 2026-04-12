@@ -37,8 +37,8 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '64px', marginBottom: '1.5rem' }}>
-        <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <Terminal size={20} color="white" />
+        <div style={{ width: '40px', height: '40px', borderRadius: '12px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <img src="/logo.png" alt="DevSprint Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         <h2 style={{ color: 'white', marginLeft: '0.75rem', fontSize: '1.25rem' }} className="sidebar-label">
           DevSprint

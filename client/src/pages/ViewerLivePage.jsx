@@ -70,19 +70,21 @@ const ViewerLivePage = () => {
                 remoteStreamRef.current.addTrack(track);
                 console.log(` [Client] Track added to remoteStream: ${track.kind} (enabled: ${track.enabled}, state: ${track.readyState})`);
 
-                // Force re-assignment to ensure browser detects the new track (especially for audio)
-                if (videoRef.current) {
-                    const currentStream = remoteStreamRef.current;
-                    videoRef.current.srcObject = currentStream;
+                // Only assign srcObject once. Subsequent tracks added to remoteStreamRef.current 
+                // will automatically be detected by the video element.
+                if (videoRef.current && !videoRef.current.srcObject) {
+                    videoRef.current.srcObject = remoteStreamRef.current;
+                    console.log(" [Client] Initialized video.srcObject");
                 }
-
-                // Force play especially when audio track is added
-                if (videoRef.current) {
-                    videoRef.current.play().then(() => {
-                        console.log(` [Client] Play successful after adding ${track.kind}`);
-                    }).catch(e => {
-                        console.warn(" [Client] Autoplay blocked or failed:", e);
-                        setNeedsInteraction(true);
+                
+                // Ensure the video is playing. We catch errors (like autoplay blocks)
+                // and show the "Click to Connect" button.
+                if (videoRef.current && videoRef.current.paused) {
+                    videoRef.current.play().catch(e => {
+                        if (e.name !== 'AbortError') {
+                            console.warn(" [Client] Autoplay blocked:", e);
+                            setNeedsInteraction(true);
+                        }
                     });
                 }
                 

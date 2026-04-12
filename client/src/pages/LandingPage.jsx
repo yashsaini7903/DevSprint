@@ -38,9 +38,8 @@ const LandingPage = () => {
         flexWrap: 'wrap',
         gap: '1rem'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Terminal color="white" size={24} />
+          <div style={{ width: '40px', height: '40px', borderRadius: '12px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src="/logo.png" alt="DevSprint Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <h2 style={{ fontSize: '1.5rem', margin: 0 }}>DevSprint</h2>
         </div>
