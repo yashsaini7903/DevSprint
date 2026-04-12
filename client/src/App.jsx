@@ -9,7 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import {SocketProvider} from './providers/Socket.jsx'
 import {PeerProvider} from './providers/peer.jsx'
 import CreateLivePage from './pages/CreateLive.jsx'
-import CreatorLivePage from './pages/creatorlivePage.jsx'
+import CreatorLivePage from './pages/CreatorlivePage.jsx'
 import ViewerLivePage from './pages/ViewerLivePage.jsx'
 import ChallengeDetail from './pages/ChallengeDetail.jsx'
 
