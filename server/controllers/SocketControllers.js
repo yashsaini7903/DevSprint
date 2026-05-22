@@ -329,20 +329,20 @@ const handleConnection = (socket, io) => {
                 return;
             }
             const producer = await creatorTransports[socket.id].produce({ kind, rtpParameters });
-            console.log(` ✅ [Server] Producer Created: ${kind} (id=${producer.id}) for socket=${socket.id} in room=${roomId}`);
+            console.log(`[Server] Producer Created: ${kind} (id=${producer.id}) for socket=${socket.id} in room=${roomId}`);
 
             if (!roomProducers[String(roomId)]) roomProducers[String(roomId)] = {};
             roomProducers[String(roomId)][kind] = producer;
 
             producer.on('transportclose', () => {
-                console.log(` 🛑 [Server] Producer Transport closed: ${kind} (id=${producer.id})`);
+                console.log(` [Server] Producer Transport closed: ${kind} (id=${producer.id})`);
                 if (roomProducers[String(roomId)]) delete roomProducers[String(roomId)][kind];
             });
 
             socket.broadcast.to(String(roomId)).emit("new-producer", { producerId: producer.id, kind });
             safeCb(callback, { id: producer.id });
         } catch (err) {
-            console.error(" ❌ [Server] Produce error:", err);
+            console.error("[Server] Produce error:", err);
         }
     });
 
@@ -350,7 +350,7 @@ const handleConnection = (socket, io) => {
     socket.on("createConsumerTransport", async (callback) => {
         try {
             const transport = await router.createWebRtcTransport({
-                listenIps: [{ ip: "0.0.0.0", announcedIp: "127.0.0.1" }],
+                listenIps: [{ ip: "0.0.0.0", announcedIp: process.env.MEDIASOUP_ANNOUNCED_IP || "127.0.0.1" }],
                 enableUdp: true,
                 enableTcp: true,
                 preferUdp: true
@@ -418,18 +418,18 @@ const handleConnection = (socket, io) => {
             // Resume specific kind, or all if kind not specified
             if (kind && consumers[kind]) {
                 await consumers[kind].resume();
-                console.log(` ▶️ [Server] Consumer RESUMED: ${kind} for socket=${socket.id}`);
+                console.log(`[Server] Consumer RESUMED: ${kind} for socket=${socket.id}`);
             } else {
                 if (consumers.video) {
                     await consumers.video.resume();
-                    console.log(` ▶️ [Server] Consumer RESUMED: video for socket=${socket.id}`);
+                    console.log(`[Server] Consumer RESUMED: video for socket=${socket.id}`);
                 }
                 if (consumers.audio) {
                     await consumers.audio.resume();
-                    console.log(` ▶️ [Server] Consumer RESUMED: audio for socket=${socket.id}`);
+                    console.log(`[Server] Consumer RESUMED: audio for socket=${socket.id}`);
                 }
             }
-        } catch (error) { console.error(' ❌ [Server] Resume error:', error); }
+        } catch (error) { console.error(' [Server] Resume error:', error); }
     });
 };
 

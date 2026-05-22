@@ -22,7 +22,9 @@ const login = async(req, res) => {
             secure: false,
             sameSite: "Lax",
         });
-        res.status(200).json({message: "Login successful", token});
+        const userWithoutPassword = { ...user._doc };
+        delete userWithoutPassword.password;
+        res.status(200).json({message: "Login successful", token, user: userWithoutPassword});
     } catch (error) {
         
         res.status(500).json({message: "Internal server error"});
@@ -45,7 +47,9 @@ const register = async(req, res) => {
             secure: false,
             sameSite: "Lax",
         });
-        res.status(201).json({message: "User registered successfully", token});
+        const userWithoutPassword = { ...newUser._doc };
+        delete userWithoutPassword.password;
+        res.status(201).json({message: "User registered successfully", token, user: userWithoutPassword});
     } catch (error) {
         
         res.status(500).json({message: "Internal server error"});

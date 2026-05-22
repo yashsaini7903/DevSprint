@@ -48,9 +48,8 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
 
     // Efficiency: Use the data if we just got it from login/signup
-    if (passedUserData) {
-      const userData = passedUserData.user || passedUserData;
-      setUser(userData);
+    if (passedUserData && passedUserData.user) {
+      setUser(passedUserData.user);
       setLoading(false);
       return;
     }
